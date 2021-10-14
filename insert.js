@@ -36,7 +36,27 @@ app.post("/ruta4", async function (req, res) {
     
 });
 
-app.listen(3000, function() {
-    console.log('Aplicación ejemplo, escuchando el puerto 3000!');
+app.post("/ruta5", async function (req, res) {
+    const uri = "mongodb+srv://newuser:5852@cluster0.akgoo.mongodb.net/SDDBDemo?retryWrites=true&w=majority";
+    MongoClient.connect(uri, function(err, db) {
+        if (err) throw err;
+        var varname = req.query.varname;
+        var vardesc = req.query.vardesc;
+        var dbo = db.db("SDDBDemo");
+        var myobj = { name: varname, address: vardesc };
+        dbo.collection("datamain").deleteOne(myobj, function(err, res) {
+          if (err) throw err;
+          console.log("1 document deleted");
+          db.close();
+        });
+      });
+      let x = "se borro con exito";
+      res.json(x);
+    const client = new MongoClient(uri, {useUnifiedTopology: true});
+    
 });
 
+
+app.listen(3000, function() {
+    console.log('AplicaciÃ³n ejemplo, escuchando el puerto 3000!');
+});
