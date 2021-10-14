@@ -43,7 +43,7 @@ app.post("/ruta5", async function (req, res) {
         var varname = req.query.varname;
         var vardesc = req.query.vardesc;
         var dbo = db.db("SDDBDemo");
-        var myobj = { name: varname, address: vardesc };
+        var myobj = { name: varname, description: vardesc };
         dbo.collection("datamain").deleteOne(myobj, function(err, res) {
           if (err) throw err;
           console.log("1 document deleted");
@@ -51,6 +51,29 @@ app.post("/ruta5", async function (req, res) {
         });
       });
       let x = "se borro con exito";
+      res.json(x);
+    const client = new MongoClient(uri, {useUnifiedTopology: true});
+    
+});
+
+app.post("/ruta6", async function (req, res) {
+    const uri = "mongodb+srv://newuser:5852@cluster0.akgoo.mongodb.net/SDDBDemo?retryWrites=true&w=majority";
+    MongoClient.connect(uri, function(err, db) {
+        if (err) throw err;
+        var varname = req.query.varname;
+        var vardesc = req.query.vardesc;
+        var varnamen = req.query.varnamen;
+        var vardescn = req.query.vardescn;
+        var dbo = db.db("SDDBDemo");
+        var myobj = { name: varname, description: vardesc };
+        var newvalues = {$set:{name: varnamen, description: vardescn}};
+        dbo.collection("datamain").updateOne(myobj, newvalues, function(err, res) {
+          if (err) throw err;
+          console.log("1 document updated");
+          db.close();
+        });
+      });
+      let x = "se actualizo con exito";
       res.json(x);
     const client = new MongoClient(uri, {useUnifiedTopology: true});
     
